@@ -5,6 +5,11 @@
 
 Class {SubString} that expresses Ruby sub-String but taking up negligible memory space, as its instance holds the positional information only.  It behaves exactly like String (duck-typing), except destructive modification is prohibited.  If the original string is destructively modified, warning is issued.
 
+On the surface, this is a String version of the class MatchSkeleton
+{match_skeleton}[https://rubygems.org/gems/match_skeleton] (also in 
+{Github}[https://github.com/masasakano/match_skeleton]), which is an
+alternative and much memorly-lighter version of MatchData.
+
 For the detailed background concept (and algorithm), see the reference page of the
 generalized parent class, SubObject, either at the
 {Ruby Gems page}[http://rubygems.org/gems/sub_object]
@@ -28,7 +33,7 @@ of information (plus a hash value, strictly speaking), and hence uses negligible
 Note that only the information this instance needs for *source* is
 +source.object_id+ or equivalent, which is really negligible in size. 
 In other words, this class does not create the copy of sub-Object from
-the original source object as the Ruby default +String#[i,j]+ does.
+the original source object as the Ruby default +String#[ i, j ]+ does.
 
 Then, whenever it is referred to, it reconstructs the original
 sub-String object:
@@ -71,7 +76,7 @@ be applied to the instance of this class.
 
 === Potential use
 
-Each sub-String in Ruby like +String[i, j]+ or +String[i..j]+ takes up memory
+Each sub-String in Ruby like +String#[ i, j ]+ or +String#[ i..j ]+ takes up memory
 according to the length of the sub-String.  Consider an example:
 
   src = "Some very extremely lengthy string.... (snipped)".
@@ -144,10 +149,11 @@ In default it is nil and $VERBOSE is referred to.
 == Install
 
 This script requires {Ruby}[http://www.ruby-lang.org] Version 2.0
-or above.
+or above.  And this library depends on {SubObject (sub_object)}[https://rubygems.org/gems/sub_object], which you can
+find in RubyGems.
 
-You can install it from the usual Ruby gem command.
-Or, alternatively, download it and put the library file in one of your Ruby library search paths.
+You can install the packages of both this library and SubObject with the usual Ruby gem command.
+Or, alternatively, download them and put the library files in one of your Ruby library search paths.
 
 == Developer's note
 

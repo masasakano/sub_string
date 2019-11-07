@@ -1,4 +1,9 @@
 -----
+(Version: 1.0.2)
+2019-11-07  Masa Sakano
+  * Minor update in RubyGems setting and documentation.
+
+-----
 (Version: 1.0.1)
 2019-11-05  Masa Sakano
   * Update README. Added ChangeLog

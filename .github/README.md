@@ -15,12 +15,10 @@ On the surface, this is a String version of the class MatchSkeleton
 alternative and much memorly-lighter version of MatchData.
 
 For the detailed background concept (and algorithm), see the reference page of
-the generalized parent class, SubObject, either at the [Ruby Gems
-page](http://rubygems.org/gems/sub_object) or in
+the generalized parent class, SubObject, either at the [Ruby Gems page](http://rubygems.org/gems/sub_object) or in
 [Github](https://github.com/masasakano/sub_object) .
 
-The full package of this class is found also in [SubString Ruby Gems
-page](http://rubygems.org/gems/sub_string) and in
+The full package of this class is found also in [SubString Ruby Gems page](http://rubygems.org/gems/sub_string) and in
 [Github](https://github.com/masasakano/sub_string)
 
 ## Description
@@ -29,7 +27,9 @@ This class takes three parameters in the initialization: **source**, **pos**
 (starting positional character-index), and **size** (of the substring of the
 original String **source**.
 
-    SubObject.new( source, position, size )
+```ruby
+SubObject.new( source, position, size )
+```
 
 The constructed instance of this class keeps only these three pieces of
 information (plus a hash value, strictly speaking), and hence uses negligible
@@ -41,7 +41,9 @@ sub-Object from the original source object as the Ruby default `String#[ i, j ]`
 Then, whenever it is referred to, it reconstructs the original sub-String
 object:
 
-    source[pos, size]
+```ruby
+source[pos, size]
+```
 
 and works exactly like **source**
 ([duck-typing](https://en.wikipedia.org/wiki/Duck_typing)).
@@ -51,15 +53,15 @@ As an example, the child class
 works as:
 
 ```ruby
-    src = "abcdef"
-    ss = SubString.new(src, -4, 3)  # => Similar to "abcdef"[-4,3]
-    print ss     # => "cde" (STDOUT)
-    ss+'3p'      # => "cde3p"
-    ss.upcase    # => "CDE"
-    ss.sub(/^./, 'Q') # => "Qde"
-    ss.is_a?(String)  # => true
-    "xy_"+ss     # => "xy_cde"
-    "cde" == ss  # => true
+src = "abcdef"
+ss = SubString.new(src, -4, 3)  # => Similar to "abcdef"[-4,3]
+print ss     # => "cde" (STDOUT)
+ss+'3p'      # => "cde3p"
+ss.upcase    # => "CDE"
+ss.sub(/^./, 'Q') # => "Qde"
+ss.is_a?(String)  # => true
+"xy_"+ss     # => "xy_cde"
+"cde" == ss  # => true
 ```
 
 Internally the instance holds the source object.  Therefore, as long as the
@@ -71,19 +73,20 @@ The following is the instance methods of
 [SubObject](http://rubygems.org/gems/sub_object) unique to this class.
 
 <dl>
-<dt>`#source()`</dt>
-<dd>   Returns the first argument (`source` String) given in initialization. The
-    returned value is dup-ped and ***frozen***.</dd>
-<dt>`#pos()`</dt>
+<dt>#source()</dt>
+<dd>   Returns the first argument (&lt;tt&gt;source&lt;/tt&gt; String) given in initialization. The
+    returned value is dup-ped and &lt;strong&gt;frozen&lt;/strong&gt;.</dd>
+<dt>#pos()</dt>
 <dd>   Returns the second argument (positional index) given in initialization.</dd>
-<dt>`#subsize()`</dt>
+<dt>#subsize()</dt>
 <dd>   Returns the third argument (size) given in initialization.  Equivalent to
-    the method `#size`.</dd>
-<dt>`#pos_size()`</dt>
-<dd>   Returns the two-component array of `[pos, subsize]`</dd>
-<dt>`#to_source()`</dt>
-<dd>   Returns the instance projected with `to_src`</dd>
+    the method &lt;tt&gt;#size&lt;/tt&gt;.</dd>
+<dt>#pos_size()</dt>
+<dd>   Returns the two-component array of &lt;tt&gt;[pos, subsize]&lt;/tt&gt;</dd>
+<dt>#to_source()</dt>
+<dd>   Returns the instance projected with `to_src</dd>
 </dl>
+
 
 
 In addition, `#inspect` is redefined.
@@ -97,8 +100,8 @@ Each sub-String in Ruby like `String#[ i, j ]` or `String#[ i..j ]` takes up
 memory according to the length of the sub-String.  Consider an example:
 
 ```ruby
-    src = "Some very extremely lengthy string.... (snipped)".
-    sub = src[1..-1]
+src = "Some very extremely lengthy string.... (snipped)".
+sub = src[1..-1]
 ```
 
 The variable `sub` uses up about the same memory of `src`. If a great number
@@ -154,8 +157,8 @@ variable `$VERBOSE` to nil.  Alternatively, you can control it with a class
 instance variable as
 
 ```ruby
-    SubObject.verbose       # => getter
-    SubObject.verbose=true  # => setter
+SubObject.verbose       # => getter
+SubObject.verbose=true  # => setter
 ```
 
 If it is set either TRUE or FALSE, this verbosity level has a priority,
@@ -165,8 +168,7 @@ referred to.
 ## Install
 
 This script requires [Ruby](http://www.ruby-lang.org) Version 2.0 or above. 
-And this library depends on [SubObject
-(sub_object)](https://rubygems.org/gems/sub_object), which you can find in
+And this library depends on [SubObject (sub_object)](https://rubygems.org/gems/sub_object), which you can find in
 RubyGems.
 
 You can install the packages of both this library and SubObject with the usual
@@ -177,6 +179,9 @@ in one of your Ruby library search paths.
 
 The master of this README file is found in
 [RubyGems/sub_object](https://rubygems.org/gems/sub_object)
+
+ChangeLog is found in
+[Github](https://github.com/masasakano/sub_string/blob/master/ChangeLog)
 
 ### Tests
 
@@ -196,12 +201,15 @@ from the top directory as `ruby test/test_****.rb` or simply run `make test`.
 
 ## Copyright
 
-Author
-:   Masa Sakano < info a_t wisebabel dot com >
-Versions
-:   The versions of this package follow Semantic Versioning (2.0.0)
-    http://semver.org/
-License
-:   MIT
+<dl>
+<dt>Author</dt>
+<dd>   Masa Sakano &lt; info a_t wisebabel dot com &gt;</dd>
+<dt>Versions</dt>
+<dd>   The versions of this package follow Semantic Versioning (2.0.0)
+    http://semver.org/</dd>
+<dt>License</dt>
+<dd>   MI</dd>
+</dl>
+
 
 

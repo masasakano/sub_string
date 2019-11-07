@@ -5,7 +5,7 @@ require 'date'
 
 Gem::Specification.new do |s|
   s.name = 'sub_string'.sub(/.*/){|c| (c == File.basename(Dir.pwd)) ? c : raise("ERROR: s.name=(#{c}) in gemspec seems wrong!")}
-  s.version = "1.0.1".sub(/.*/){|c| fs = Dir.glob('changelog{,.*}', File::FNM_CASEFOLD); raise('More than one ChangeLog exist!') if fs.size > 1; warn("WARNING: Version(s.version=#{c}) already exists in #{fs[0]} - ok?") if fs.size == 1 && !IO.readlines(fs[0]).grep(/^\(Version: #{Regexp.quote c}\)$/).empty? ; c }  # n.b., In macOS, changelog and ChangeLog are identical in default.
+  s.version = "1.0.2".sub(/.*/){|c| fs = Dir.glob('changelog{,.*}', File::FNM_CASEFOLD); raise('More than one ChangeLog exist!') if fs.size > 1; warn("WARNING: Version(s.version=#{c}) already exists in #{fs[0]} - ok?") if fs.size == 1 && !IO.readlines(fs[0]).grep(/^\(Version: #{Regexp.quote c}\)$/).empty? ; c }  # n.b., In macOS, changelog and ChangeLog are identical in default.
   # s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   # s.bindir = 'bin'
   # %w(sub_string).each do |f|
@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   #   File.executable?(path) ? s.executables << f : raise("ERROR: Executable (#{path}) is not executable!")
   # end
   s.authors = ["Masa Sakano"]
-  s.date = %q{2019-11-05}.sub(/.*/){|c| (Date.parse(c) == Date.today) ? c : raise("ERROR: s.date=(#{c}) is not today!")}
+  s.date = %q{2019-11-07}.sub(/.*/){|c| (Date.parse(c) == Date.today) ? c : raise("ERROR: s.date=(#{c}) is not today!")}
   s.summary = %q{Duck-typed String class with negligible memory use}
   s.description = <<-EOF
     Class SubString that expresses Ruby sub-String but taking up negligible memory space, as its instance holds the positional information only.  It behaves exactly like String (duck-typing), except destructive modification is prohibited.  If the original string is destructively altered, warning is issued.
@@ -51,8 +51,8 @@ Gem::Specification.new do |s|
 
   ## cf. https://guides.rubygems.org/specification-reference/#metadata
   s.metadata["yard.run"] = "yri" # use "yard" to build full HTML docs.
-  s.metadata["changelog_uri"]     = "https://github.com/masasakano/sub_string/blob/master/ChangeLog"
-  s.metadata["source_code_uri"]   = "https://github.com/masasakano/sub_string"
+  # s.metadata["changelog_uri"]     = "https://github.com/masasakano/sub_string/blob/master/ChangeLog"
+  # s.metadata["source_code_uri"]   = "https://github.com/masasakano/sub_string"
   # s.metadata["documentation_uri"] = "https://www.example.info/gems/bestgemever/0.0.1"
 end
 

@@ -160,6 +160,8 @@ Or, alternatively, download them and put the library files in one of your Ruby l
 The master of this README file is found in
 {RubyGems/sub_object}[https://rubygems.org/gems/sub_object]
 
+ChangeLog is found in {Github}[https://github.com/masasakano/sub_string/blob/master/ChangeLog]
+
 === Tests
 
 Ruby codes under the directory <tt>test/</tt> are the test scripts.

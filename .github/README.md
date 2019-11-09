@@ -7,7 +7,8 @@ Class {SubString} that expresses Ruby sub-String but taking up negligible
 memory space, as its instance holds the positional information only.  It
 behaves exactly like String (duck-typing), except destructive modification is
 prohibited.  If the original string is destructively modified, warning is
-issued.
+issued.  Also, as a bonus, an arbitrary object can be associated with
+instances of this class with `SubString#attr`.
 
 On the surface, this is a String version of the class MatchSkeleton
 [match_skeleton](https://rubygems.org/gems/match_skeleton) (also in 
@@ -28,7 +29,7 @@ This class takes three parameters in the initialization: **source**, **pos**
 original String **source**.
 
 ```ruby
-SubObject.new( source, position, size )
+SubString.new( source, index1, index2, attr: arbitrary_object )
 ```
 
 The constructed instance of this class keeps only these three pieces of
@@ -47,6 +48,11 @@ source[pos, size]
 
 and works exactly like **source**
 ([duck-typing](https://en.wikipedia.org/wiki/Duck_typing)).
+
+Note `attr` option is optional and to set an arbitrary object as an instance
+variable.  The default value is nil. It can be reset any time later with the
+setter method of `SubString#attr=`. To store an arbitrary number of pieces of
+information, a Hash instance would be convenient.
 
 As an example, the child class
 [SubString](http://rubygems.org/gems/sub_string) (provided as a different Gem)
@@ -69,8 +75,9 @@ instance is alive, the source object is never garbage-collected (GC).
 
 ### Instance methods
 
-The following is the instance methods of
-[SubObject](http://rubygems.org/gems/sub_object) unique to this class.
+The following is the instance methods of this class that do not exist in
+String.  All are inherited from the parent
+[SubObject](http://rubygems.org/gems/sub_object) class.
 
 <dl>
 <dt>#source()</dt>
@@ -84,7 +91,11 @@ The following is the instance methods of
 <dt>#pos_size()</dt>
 <dd>   Returns the two-component array of &lt;tt&gt;[pos, subsize]&lt;/tt&gt;</dd>
 <dt>#to_source()</dt>
-<dd>   Returns the instance projected with `to_src</dd>
+<dd>   Returns the instance projected with &lt;tt&gt;to_src&lt;/tt&gt;</dd>
+<dt>#attr=()</dt>
+<dd>   Setter of the user-defined instance variable.</dd>
+<dt>#attr()</dt>
+<dd>   Getter of the user-defined instance variable.  The default is nil</dd>
 </dl>
 
 
@@ -112,6 +123,11 @@ This is where this class comes in handy.  For example, a parsing program
 applied to a huge text document with a complex grammar may hold a number of
 such String variables.  By using this class instead of String, it can save
 some valuable memory.
+
+Note this class also offers a function to associate an arbitrary object with
+it with the setter and getter methods of `SubString#attr=` and
+`SubString#attr` (which are inherited methods from the parent class
+[SubObject](http://rubygems.org/gems/sub_object) like the others).
 
 ### Warning about destructive methods to this instance or worse, to the source
 
@@ -157,8 +173,8 @@ variable `$VERBOSE` to nil.  Alternatively, you can control it with a class
 instance variable as
 
 ```ruby
-SubObject.verbose       # => getter
-SubObject.verbose=true  # => setter
+SubString.verbose       # => getter
+SubString.verbose=true  # => setter
 ```
 
 If it is set either TRUE or FALSE, this verbosity level has a priority,
@@ -168,7 +184,7 @@ referred to.
 ## Install
 
 This script requires [Ruby](http://www.ruby-lang.org) Version 2.0 or above. 
-And this library depends on [SubObject (sub_object)](https://rubygems.org/gems/sub_object), which you can find in
+Also, all this library depends on [SubObject (sub_object)](https://rubygems.org/gems/sub_object), which you can find in
 RubyGems.
 
 You can install the packages of both this library and SubObject with the usual

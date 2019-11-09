@@ -106,6 +106,17 @@ class TestUnitSubString < MiniTest::Test
     assert_equal '..."'+"\n", err[-5..-1]
     assert_equal  60, (err.split(']')[-1].size-4)/10.0.round*10
     assert_equal 120, siz
+
+    # Tests of attr
+    assert_nil   obj.attr
+    str = 'abcdefghijklm'*20
+    obj = SubString.new str, 0, 120, attr: 5
+    assert_equal  5, obj.attr
+    hs = Hash[{ try: 67 }]
+    obj.attr = hs
+    assert_equal hs, obj.attr
+    obj.attr[:try] = 89
+    assert_equal 89, obj.attr[:try]
   end
 
   # As in README.en.rdoc

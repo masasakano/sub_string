@@ -1,4 +1,9 @@
 -----
+(Version: 1.1)
+2019-11-09  Masa Sakano
+  * No changes in code but follows the update of the parent SubObject, which added attr getter/setter.
+
+-----
 (Version: 1.0.2)
 2019-11-07  Masa Sakano
   * Minor update in RubyGems setting and documentation.

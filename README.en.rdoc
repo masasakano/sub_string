@@ -3,7 +3,8 @@
 
 == Summary
 
-Class {SubString} that expresses Ruby sub-String but taking up negligible memory space, as its instance holds the positional information only.  It behaves exactly like String (duck-typing), except destructive modification is prohibited.  If the original string is destructively modified, warning is issued.
+Class {SubString} that expresses Ruby sub-String but taking up negligible memory space, as its instance holds the positional information only.  It behaves exactly like String (duck-typing), except destructive modification is prohibited.  If the original string is destructively modified, warning is issued.  Also, as a bonus, an
+arbitrary object can be associated with instances of this class with +SubString#attr+.
 
 On the surface, this is a String version of the class MatchSkeleton
 {match_skeleton}[https://rubygems.org/gems/match_skeleton] (also in 
@@ -26,7 +27,7 @@ in {Github}[https://github.com/masasakano/sub_string]
 This class takes three parameters in the initialization: *source*, *pos*
 (starting positional character-index), and *size* (of the substring of the original String *source*.
 
-  SubObject.new( source, position, size )
+  SubString.new( source, index1, index2, attr: arbitrary_object )
 
 The constructed instance of this class keeps only these three pieces
 of information (plus a hash value, strictly speaking), and hence uses negligible internal memory space on its own.
@@ -42,6 +43,12 @@ sub-String object:
 
 and works exactly like *source*
 ({duck-typing}[https://en.wikipedia.org/wiki/Duck_typing]).
+
+Note +attr+ option is optional and to set an arbitrary object as an
+instance variable.  The default value is nil. It can be
+reset any time later with the setter method of +SubString#attr=+.
+To store an arbitrary number of pieces of information, a Hash instance
+would be convenient.
 
 As an example, the child class {SubString}[http://rubygems.org/gems/sub_string] (provided as a different Gem)
 works as:
@@ -61,13 +68,16 @@ as the instance is alive, the source object is never garbage-collected (GC).
 
 === Instance methods
 
-The following is the instance methods of {SubObject}[http://rubygems.org/gems/sub_object] unique to this class.
+The following is the instance methods of this class that do not exist in String.  All are
+inherited from the parent {SubObject}[http://rubygems.org/gems/sub_object] class.
 
 +#source()+::  Returns the first argument (+source+ String) given in initialization. The returned value is dup-ped and **frozen**.
 +#pos()+::  Returns the second argument (positional index) given in initialization.
 +#subsize()+::  Returns the third argument (size) given in initialization.  Equivalent to the method +#size+.
 +#pos_size()+::  Returns the two-component array of +[pos, subsize]+
 +#to_source()+::  Returns the instance projected with +to_src+
++#attr=()+::  Setter of the user-defined instance variable.
++#attr()+::  Getter of the user-defined instance variable.  The default is nil.
 
 In addition, +#inspect+ is redefined.
 
@@ -90,6 +100,11 @@ This is where this class comes in handy.  For example, a parsing
 program applied to a huge text document with a complex grammar may
 hold a number of such String variables.  By using this class instead
 of String, it can save some valuable memory.
+
+Note this class also offers a function to associate an arbitrary
+object with it with the setter and getter methods of +SubString#attr=+ and +SubString#attr+
+(which are inherited methods from the parent class {SubObject}[http://rubygems.org/gems/sub_object]
+like the others).
 
 === Warning about destructive methods to this instance or worse, to the source
 
@@ -138,8 +153,8 @@ However if you want to suppress the warning message, set the Ruby
 global variable +$VERBOSE+ to nil.  Alternatively, you can control it with
 a class instance variable as
 
-  SubObject.verbose       # => getter
-  SubObject.verbose=true  # => setter
+  SubString.verbose       # => getter
+  SubString.verbose=true  # => setter
 
 If it is set either TRUE or FALSE, this verbosity level has a
 priority, regardless of the value of +$VERBOSE+.
@@ -149,7 +164,7 @@ In default it is nil and $VERBOSE is referred to.
 == Install
 
 This script requires {Ruby}[http://www.ruby-lang.org] Version 2.0
-or above.  And this library depends on {SubObject (sub_object)}[https://rubygems.org/gems/sub_object], which you can
+or above.  Also, all this library depends on {SubObject (sub_object)}[https://rubygems.org/gems/sub_object], which you can
 find in RubyGems.
 
 You can install the packages of both this library and SubObject with the usual Ruby gem command.

@@ -29,15 +29,17 @@ This class takes three parameters in the initialization: **source**, **pos**
 original String **source**.
 
 ```ruby
-SubString.new( source, index1, index2, attr: arbitrary_object )
+SubString.new( source, pos=0, size=nil, attr: arbitrary_object )
 ```
 
 The constructed instance of this class keeps only these three pieces of
-information (plus a hash value, strictly speaking), and hence uses negligible
-internal memory space on its own. Note that only the information this instance
-needs for **source** is `source.object_id` or equivalent, which is really
-negligible in size.  In other words, this class does not create the copy of
-sub-Object from the original source object as the Ruby default `String#[ i, j ]` does.
+information, plus user-supplied instance-specific additional information
+`attr`, (plus a hash value, strictly speaking), and hence uses negligible
+internal memory space on its own, unlike the Ruby default `String#[ i, j ]` .
+
+Note that the default of `pos` is 0, and negative values are allowed for it
+just like `String#[ -2, 1 ]` .   If the size is unspecified, the maximum
+possible size for `source` counted from `pos` is used.
 
 Then, whenever it is referred to, it reconstructs the original sub-String
 object:
@@ -60,7 +62,8 @@ works as:
 
 ```ruby
 src = "abcdef"
-ss = SubString.new(src, -4, 3)  # => Similar to "abcdef"[-4,3]
+ss = SubString(src, -4, 3, attr: (5..6)) # => Short form of SubString.new()
+             # => Similar to "abcdef"[-4,3]
 print ss     # => "cde" (STDOUT)
 ss+'3p'      # => "cde3p"
 ss.upcase    # => "CDE"
@@ -68,6 +71,7 @@ ss.sub(/^./, 'Q') # => "Qde"
 ss.is_a?(String)  # => true
 "xy_"+ss     # => "xy_cde"
 "cde" == ss  # => true
+ss.attr      # => (5..6)  # user-specified instance-specific additional information
 ```
 
 Internally the instance holds the source object.  Therefore, as long as the
@@ -193,26 +197,29 @@ in one of your Ruby library search paths.
 
 ## Developer's note
 
-The master of this README file is found in
-[RubyGems/sub_object](https://rubygems.org/gems/sub_object)
+The master of this README file as well as the entire package is found in
+[RubyGems/sub_string](https://rubygems.org/gems/sub_string)
 
-ChangeLog is found in
-[Github](https://github.com/masasakano/sub_string/blob/master/ChangeLog)
+The source code is maintained also in
+[Github](https://github.com/masasakano/sub_string) with no intuitive interface
+for annotation but with easily-browsable
+[ChangeLog](https://github.com/masasakano/sub_string/blob/master/ChangeLog)
 
 ### Tests
 
-Ruby codes under the directory `test/` are the test scripts. You can run them
-from the top directory as `ruby test/test_****.rb` or simply run `make test`.
+The Ruby codes under the directory `test/` are the test scripts. You can run
+them from the top directory as `ruby test/test_****.rb` or simply run `make
+test`.
 
 ## Known bugs and Todo items
 
-*   This class ignores any optional (keyword) parameters for the methods.  It
-    is due to the fact Ruby
+*   This class ignores any optional (keyword) parameters for the methods of
+    the original String class.  It is due to the fact Ruby
     [BasicObject#method_missing](https://ruby-doc.org/core-2.6.5/BasicObject.html#method-i-method_missing) does not take them into account as of
     Ruby-2.6.5.  It may change in future versions of Ruby. As far as the Ruby
     built-in methods of String are concerned, it does not matter because none
-    of them uses one.  However, if String uses such user-defined methods, it
-    may encounter a trouble.
+    of them uses one.  However, if String has methods of this kind defined by
+    a user or in external library, it may encounter a trouble.
 
 
 ## Copyright

@@ -1,4 +1,9 @@
 -----
+(Version: 1.2)
+2019-11-12  Masa Sakano
+  * Allows the defaults for 2nd, 3rd parameters in initialization. Defined function SubString().
+
+-----
 (Version: 1.1)
 2019-11-09  Masa Sakano
   * No changes in code but follows the update of the parent SubObject, which added attr getter/setter.

@@ -117,12 +117,32 @@ class TestUnitSubString < MiniTest::Test
     assert_equal hs, obj.attr
     obj.attr[:try] = 89
     assert_equal 89, obj.attr[:try]
+
+    # Tests of default
+    str = 'abcdefghijklm'*20
+    obj = SubString.new str
+    assert_equal str.size, obj.size
+    assert_equal str.size, obj.subsize
+    assert_equal str, obj
+
+    obj = SubString.new str, attr: 6
+    assert_equal  6, obj.attr
+
+    obj = SubString.new str, 1
+    assert_equal str.size, obj.size+1
+    assert_equal str.size, obj.subsize+1
+    assert_equal str[1..-1], obj
+
+    obj = SubString.new str, -2
+    assert_equal 2, obj.size
+    assert_equal 2, obj.subsize
+    assert_equal str[-2..-1], obj
   end
 
-  # As in README.en.rdoc
+  # As in README.en.rdoc (also tests of SubString() as opposed to SubString.new)
   def test_sub_string03
     src = "abcdef"
-    ss = SubString.new(src, -4, 3)  # => Similar to "abcdef"[-4,3]
+    ss = SubString(src, -4, 3, attr: (5..6))  # => Similar to "abcdef"[-4,3]
     assert_operator "cde", '==', ss
     assert_equal "cde",    ss.to_s
     assert_equal "cde3p",  ss+'3p'
@@ -130,6 +150,7 @@ class TestUnitSubString < MiniTest::Test
     assert_equal "Qde",    ss.sub(/^./, 'Q')
     assert                 ss.is_a?(String)
     assert_equal "xy_cde", "xy_"+ss
+    assert_equal (5..6),   ss.attr
   end
 end # class TestUnitSubString < MiniTest::Test
 
